@@ -19,6 +19,7 @@ print'
     <nav>
       <a href="index.php">Home</a>
       <a href="privacy.php">Privacy Policy</a>
+      <a href="albumform.php">Album Form</a>
     </nav>
 
     <article>

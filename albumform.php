@@ -13,7 +13,7 @@ print $page->getTopSection();
 print "
 
 	<h2> Search box </h2>
-    <input type=text id=searchInput value =Album or Artist>
+    <input type=text id=searchInput value =Album_or_Artist>
     <input type=button id=mySearchbtn value=Search>
 
 ";

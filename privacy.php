@@ -14,6 +14,7 @@ print '<h1>Privacy Policy</h1>
     <nav>
       <a href="survey.php">Survey</a>
       <a href="index.php">Home</a>
+      <a href="albumform.php">Album Form</a>
     </nav>
 
     <article>
