@@ -1,5 +1,4 @@
 <?php
-
 require_once("DB.class.php");
 
 $db = new DB();
@@ -12,7 +11,21 @@ $album_or_artist = $_POST;
 //Data Sanitization goes here
 $album_or_artist = $db->dbEsc($album_or_artist);
 
+$search =  $_Post['searchInput'];
+
+if (!$db->getConnStatus()) {
+  print "An error has occurred with connection\n";
+  exit;
+}
+
+$query = "SELECT Album, Artist
+        FROM albuminfo
+        WHERE Album = $search OR ARTIST = $search";
+
+$result = $db->dbCall($query);
+
 //Resulting sheet goes here
+
 
 
 require_once("Template.php");
@@ -24,6 +37,15 @@ $page -> finalizeBottomSection();
 	
 print $page -> getTopSection();
 
+print "<h1>Success</h1>
+
+    <nav>
+      <a href="privacy.php">Privacy Policy</a>
+      <a href="index.php">Home</a>
+      <a href="albumform.php">Album Form</a>
+    </nav>"
+	
+print $result;
 
 print '<table>';
 
