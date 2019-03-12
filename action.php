@@ -23,6 +23,28 @@ print '<h1>Success</h1>
 	
 	</article>';
 	
+if(isset($_POST['major'])){
+	$major = isset($_POST['major'];
+}
+else {
+	print "Error";
+}
+if(isset($_POST['grade'])){
+	$grade = isset($_POST['grade'];
+}
+else {
+	print "Error";
+}
+if(isset($_POST['pizza'])){
+	$pizza = isset($_POST['pizza'];
+}
+else {
+	print "Error";
+}
+
+$survey = "INSERT INTO survey (sibmittime, major, expectedgrade, favetopping, userip, sessionid)
+values (0, now(), $major, $grade, $pizza)";
+	
 print $page -> getBottomSection();
 //Example branch
 ?>
