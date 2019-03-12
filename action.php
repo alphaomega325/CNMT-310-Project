@@ -1,4 +1,12 @@
 <?php
+//Survey database insert here
+require_once("DB.class.php");
+
+$db = new DB();
+
+
+
+//result page here
 require_once("Template.php");
 
 $page = new Template("Congratulations");
