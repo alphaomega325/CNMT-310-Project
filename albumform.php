@@ -1,7 +1,8 @@
 <?php
 
+require_once("DB.class.php");
 require_once("Template.php");
-$page = new Template("Album Search");
+$page = new Template("Book Form");
 $page -> addHeadElement('<link rel="stylesheet" href="css/style.css">');
 $page -> addHeadElement('<meta charset="UTF-8">');
 $page->finalizeTopSection();
@@ -11,11 +12,11 @@ print $page->getTopSection();
 
 print "
 
-	<form action= 'action.php'>
-    <input type=text id=searchInput value =Album_or_Artist>
-    <input type='submit' id=mySearchbtn value=Search>
-	</form>
-";
+	<h2> Search box </h2>
+	<form method='POST' action='album_result.php'>
+	<input type='text' name='searchInput' value ='' pattern='[a-zA-Z0-9-]+' title='Please enter album or artist' required>
+    <input type='submit' name='submit' value='Search'>
 
+";
 print $page->getBottomSection();
 ?>

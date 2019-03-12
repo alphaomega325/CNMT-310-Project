@@ -3,15 +3,13 @@ require_once("DB.class.php");
 
 $db = new DB();
 
-$album_or_artist = $_POST;
+$search = $_POST["searchInput"];
 
 //Validation goes here
 
 
 //Data Sanitization goes here
-$album_or_artist = $db->dbEsc($album_or_artist);
-
-$search =  $_Post['searchInput'];
+$search = $db->dbEsc($search);
 
 if (!$db->getConnStatus()) {
   print "An error has occurred with connection\n";
