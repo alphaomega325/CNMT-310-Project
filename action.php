@@ -55,5 +55,4 @@ $survey = "INSERT INTO survey (sibmittime, major, expectedgrade, favetopping, us
 values (0, now(), $major, $grade, $pizza)";
 	
 print $page -> getBottomSection();
-//Example branch
 ?>
