@@ -30,30 +30,59 @@ $search = $db->dbEsc($search);
 
 if(!isset($search))
 {
-    searchFailurePage($page);
+    searchErrorPage($page);
 }
 
-/*$query = "SELECT Album, Artist
-        FROM albuminfo
-        WHERE Album = $search OR ARTIST = $search"; */
+
 
 $query = "SELECT albumtitle, albumartist 
         FROM album
-	    WHERE albumtitle = $search OR albumartist = $search";
+	    WHERE albumtitle = '" . $search . "' OR albumartist = '" . $search . "';";
+
+
 
 $result = $db->dbCall($query);
 
-var_dump($result);
 
-successPage($page);
-
+if(!(empty($result))){
+    successPage($page, $result);
+}
+else
+{
+    searchFailurePage($page, $search);
+}
 //Resulting WebPages goes here
 
-function searchFailurePage(Template $page){
+function searchFailurePage(Template $page, String $search){
+    print $page -> getTopSection();
+    
+
+    print"<h1>Failure</h1>
+
+    <nav>
+      <a href='privacy.php'>Privacy Policy</a>
+      <a href='index.php'>Home</a>
+      <a href='albumform.php'>Album Form</a>
+    </nav>
+
+    <p>We have failed to find the item " . $search . " please select a different album or artist so that we can check for you again.</p>
+
+";
+
+    print $page->getBottomSection();
+}
+
+function searchErrorPage(Template $page){
     print $page -> getTopSection();
 
-    print"<h1>Failure<h1>
-
+    print"<h1>Failure</h1>
+ 
+    <nav>
+      <a href='privacy.php'>Privacy Policy</a>
+      <a href='index.php'>Home</a>
+      <a href='albumform.php'>Album Form</a>
+    </nav>
+    
     <p>We have failed to detect any items in the search bar.  Please try again later.</p>
 
 ";
@@ -61,8 +90,10 @@ function searchFailurePage(Template $page){
     print $page->getBottomSection();
 }
 
-function successPage(Template $page){	
+function successPage(Template $page, array $result){	
     print $page -> getTopSection();
+        var_dump($page);
+
     
     print "<h1>Success</h1>
 
@@ -72,8 +103,7 @@ function successPage(Template $page){
       <a href='albumform.php'>Album Form</a>
     </nav>";
              
-	var_dump($result);
-    //print $result;
+
                         
     print '<table>';
    
