@@ -92,7 +92,7 @@ function searchErrorPage(Template $page){
 
 function successPage(Template $page, array $result){	
     print $page -> getTopSection();
-        var_dump($page);
+
 
     
     print "<h1>Success</h1>
