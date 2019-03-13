@@ -4,7 +4,10 @@ require_once("DB.class.php");
 
 $db = new DB();
 
-
+if (!$db->getConnStatus()) {
+    print "An error has occurred with connection\n";
+    exit;
+}
 
 //result page here
 require_once("Template.php");
@@ -32,28 +35,28 @@ print '<h1>Success</h1>
 	
 	</article>';
 	
-if(isset($_POST['major'])){
-	$major = isset($_POST['major'];
-}
-else {
-	print "Error";
-}
-if(isset($_POST['grade'])){
-	$grade = isset($_POST['grade'];
-}
-else {
-	print "Error";
-}
-if(isset($_POST['pizza'])){
-	$pizza = isset($_POST['pizza'];
-}
-else {
-	print "Error";
+
+if (isset($_POST['major']) and
+    isset($_POST['grade']) and
+    isset($_POST['pizza']) )
+    {
+      $major = $db->dbEsc($_POST['major']);
+      $grade = $db->dbEsc($_POST['grade']);
+      $pizza = $db->dbEsc($_POST['pizza']);
+	  $ip = $_SERVER["REMOTE_ADDR"];
+	  //$time = date(DATE_RFC2822);
+	  $time = 21;
+      $survey = "INSERT INTO survey (submittime, major, expectedgrade, favetopping, userip) " .
+             "VALUES (now(),'{$major}','{$grade}','{$pizza}', '{$ip}')";
+	  $result = [];
+      $result = $db->dbCall($survey); 
+      //die(Header("Location: thanks.php"));
+    }	
+else{
+	print "error";
 }
 
-$survey = "INSERT INTO survey (sibmittime, major, expectedgrade, favetopping, userip, sessionid)
-values (0, now(), $major, $grade, $pizza)";
+
 	
 print $page -> getBottomSection();
-//Example branch
 ?>
