@@ -35,6 +35,7 @@ function checker(){
 	message += "Please select these options in order for your survey to be completed."
       
 	alert(message);
+	window.location.replace("survey.php");
     }
 
     
