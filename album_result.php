@@ -7,6 +7,19 @@ $page -> addHeadElement('<meta charset="UTF-8">');
 $page -> finalizeTopSection();
 $page -> finalizeBottomSection();
 
+$search = $_POST["searchInput"];
+
+
+//Validation goes here
+
+if(!isset($search))
+{
+    searchErrorPage($page);
+    exit;
+}
+
+
+
 //Database Class setup
 
 require_once("DB.class.php");
@@ -18,26 +31,19 @@ if (!$db->getConnStatus()) {
   exit;
 }
 
-$search = $_POST["searchInput"];
 
 
 
 //Data Sanitization goes here
-$search = $db->dbEsc($search);
+$safesearch = $db->dbEsc($search);
 
 
-//Validation goes here
-
-if(!isset($search))
-{
-    searchErrorPage($page);
-}
 
 
 
 $query = "SELECT albumtitle, albumartist 
         FROM album
-	    WHERE albumtitle = '" . $search . "' OR albumartist = '" . $search . "';";
+	    WHERE albumtitle = '" . $safesearch . "' OR albumartist = '" . $safesearch . "';";
 
 
 
@@ -49,11 +55,11 @@ if(!(empty($result))){
 }
 else
 {
-    searchFailurePage($page, $search);
+    searchFailurePage($page, $safesearch);
 }
 //Resulting WebPages goes here
 
-function searchFailurePage(Template $page, String $search){
+function searchFailurePage(Template $page, String $safesearch){
     print $page -> getTopSection();
     
 
@@ -65,7 +71,7 @@ function searchFailurePage(Template $page, String $search){
       <a href='albumform.php'>Album Form</a>
     </nav>
 
-    <p>We have failed to find the item " . $search . " please select a different album or artist so that we can check for you again.</p>
+    <p>We have failed to find the item " . $safesearch . " please select a different album or artist so that we can check for you again.</p>
 
 ";
 
