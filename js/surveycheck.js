@@ -37,6 +37,10 @@ function checker(){
 	alert(message);
 	window.location.href = "survey.php";
     }
+    else()
+    {
+	window.location.href = "action.php";
+    }
 
     
 }

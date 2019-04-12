@@ -26,7 +26,7 @@ print'
 
       <p> Below I will be asking some questions that you may answer.</p>
 
-      <form name="college" action="action.php" onsubmit="return checker()" method="POST">
+      <form name="college" action="return checker();" method="POST">
 
 	<h2>What is your Major?</h2>
 	<input type="checkbox" name="major" value="CIS-AppDev" class="checkbox">CIS-AppDev<br>
