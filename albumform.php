@@ -13,7 +13,7 @@ print "
 
 	<h2> Search box </h2>
 	<form method='POST' action='album_result.php'>
-	<input type='text' name='searchInput' value='' pattern='[a-zA-Z0-9-]+' title='Please enter album or artist' required>
+	<input type='text' name='searchInput' value='' required>
     <input type='submit' name='submit' value='Search'>
     </form>
 

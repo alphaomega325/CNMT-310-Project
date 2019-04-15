@@ -52,8 +52,6 @@ print'
       </form>
 
     </article>
-
-
 ';
   
   print $page->getBottomSection();
