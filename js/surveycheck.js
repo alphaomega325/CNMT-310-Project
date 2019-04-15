@@ -35,11 +35,11 @@ function checker(){
 	message += "Please select these options in order for your survey to be completed."
       
 	alert(message);
-	window.location.href = "survey.php";
+	location.href = "survey.php";
     }
-    else()
+    else
     {
-	window.location.href = "action.php";
+	location.href = "action.php";
     }
 
     
