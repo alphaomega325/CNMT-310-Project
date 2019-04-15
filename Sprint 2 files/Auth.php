@@ -8,6 +8,8 @@ $page = new Template("My Page");
 $page->finalizeTopSection();
 $page->finalizeBottomSection();
 
+
+
 if(!validate()){
 	Print "<a href = 'login.php'>'username or password invalid, please try again'</a>"; 
 }
@@ -20,8 +22,8 @@ print $page->getBottomSection();
 
 function validate($username = $_POST['username'], $password = $_POST['password']) {
 	
-	var $query = "SELECT * FROM user WHERE userid =" . $username . " OR email =" . $username . ";";
-	$credentials = array($db->dbCall($query));
+	$query = "SELECT * FROM user WHERE userid =" . $username . " OR email =" . $username . ";";
+	$credentials = $db->dbCall($query);
 	
 	if ($credentials[userid] = $username || $credentials[email] = $username) {
 		
@@ -31,6 +33,5 @@ function validate($username = $_POST['username'], $password = $_POST['password']
 		}
 	}
 	
-	return false;
-	
-}
+	return false;	
+}//end of function
