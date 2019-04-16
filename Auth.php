@@ -1,33 +1,40 @@
 <?php
-
-require_once("Template.php");
+session_start();
 require_once("DB.class.php");
 
 $db = new DB;
-$page = new Template("My Page");
-$page->finalizeTopSection();
-$page->finalizeBottomSection();
 
-
-
-if(!validate()){
-	Print "<a href = 'login.php'>'username or password invalid, please try again'</a>"; 
+if(isset($_POST['username'])) {
+	$username = $_POST['username'];
 }
-else {
-	session_start();
+if(isset($_POST['password'])) {
+	$password = $_POST['password'];
 }
-print $page->getTopSection();
-print "";
-print $page->getBottomSection();
+	if (!$db->getConnStatus()) {
+		print "An error has occurred with connection\n";
+		exit;
+	}
 
-function validate($username = $_POST['username'], $password = $_POST['password']) {
-	
-	$query = "SELECT * FROM user WHERE userid =" . $username . " OR email =" . $username . ";";
-	$credentials = $db->dbCall($query);
-	
-	if ($credentials[userid] = $username || $credentials[email] = $username) {
+		$query = "SELECT * FROM user, user2role, role WHERE (user.id = user2role.userid AND user2role.roleid = role.id)
+		AND '" . $username . "' = user.username ;";
 		
-		if(password_verify($password, $credentials[userpass])) {
+	$userinfo = $db->dbCall($query);
+
+	if(validate($userinfo, $username, $password)){
+		
+		$_SESSION['current_user'] = $userinfo[0]['realname'];
+		$_SESSION['user_role'] = $userinfo[0]['rolename'];
+		header('Location: index.php');
+	}	
+	else {
+		$printresult = "<a href = 'Login.php'>Username or password invalid</a>";	
+	}
+	
+function validate($userinfo, $username, $password) {
+	
+	if ($userinfo[0]['username'] == $username || $userinfo[0]['email'] == $username) {
+		
+		if(password_verify($password, $userinfo[0]['userpass'])) {
 			
 			return true;
 		}
@@ -35,3 +42,4 @@ function validate($username = $_POST['username'], $password = $_POST['password']
 	
 	return false;	
 }//end of function
+?>

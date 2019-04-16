@@ -25,15 +25,11 @@ h2 {
 nav {
 
     background-color: green;
-    
 
 }
 
-nav a {
-
-    margin-left: 20%;
-    margin-right: 0%;
-    
+a {
+	padding: 10%;
 }
 
 nav a:link {
