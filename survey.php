@@ -5,7 +5,6 @@ require_once("Template.php");
 $page = new Template("Survey");
 $page -> addHeadElement("<link rel=\"stylesheet\" href=\"css/style.css\">");
 $page -> addHeadElement("<meta charset=\"UTF-8\">");
-$page -> addHeadElement("<script src=\"js/surveycheck.js\"></script>");
 
 $page -> finalizeTopSection();
 $page -> finalizeBottomSection();
@@ -26,7 +25,7 @@ print'
 
       <p> Below I will be asking some questions that you may answer.</p>
 
-      <form name="college" action=action.php onsubmit="return checker();" method="POST">
+      <form name="college" action=action.php  method="POST">
 
 	<h2>What is your Major?</h2>
 	<input type="checkbox" name="major" value="CIS-AppDev" class="checkbox">CIS-AppDev<br>
