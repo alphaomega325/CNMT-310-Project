@@ -6,6 +6,20 @@ $page -> addHeadElement('<meta charset="UTF-8">');
 $page -> finalizeTopSection();
 $page -> finalizeBottomSection();
 
+
+
+
+//Validation goes here
+
+if(!isset($_POST["searchInput"]))
+{
+    searchFailurePage($page);
+    exit;
+} 
+
+$search = $_POST["searchInput"];
+
+
 //Database Class setup
 
 require_once("DB.class.php");
@@ -17,20 +31,11 @@ if (!$db->getConnStatus()) {
   exit;
 }
 
-//$search = $_POST["searchInput"];
-
 
 
 //Data Sanitization goes here
-//$search = $db->dbEsc($search);
+$search = $db->dbEsc($search);
 
-
-//Validation goes here
-
-/*if(!isset($search))
-{
-    searchFailurePage($page);
-} */
 
 $query = "SELECT *
         FROM survey";
@@ -42,7 +47,7 @@ successPage($page, $result);
 
 //Resulting WebPages goes here
 
-/*function searchFailurePage(Template $page){
+function searchFailurePage(Template $page){
     print $page -> getTopSection();
 
     print "<h1>Failure<h1>
@@ -53,7 +58,7 @@ successPage($page, $result);
 
     print $page->getBottomSection();
 
-} */
+}
 
 function successPage(Template $page, array $result){	
     print $page -> getTopSection();
