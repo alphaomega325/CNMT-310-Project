@@ -1,22 +1,29 @@
 <?php
 require_once("Template.php");
-
+session_start();
 $page = new Template("Privacy Policy");
 $page -> addHeadElement('<link rel="stylesheet" href="css/style.css">');
 $page -> addHeadElement('<meta charset="UTF-8">');
-
+if(!empty($_SESSION['current_user'])) {
+	$page -> addHeadElement("<h1>Hello, {$_SESSION['current_user']}</h1>");
+}
 $page -> finalizeTopSection();
 $page -> finalizeBottomSection();
 
 print $page->getTopSection();
-print '<h1>Privacy Policy</h1>
+print "<h1>Privacy Policy</h1>
 
     <nav>
-      <a href="survey.php">Survey</a>
-      <a href="index.php">Home</a>
-      <a href="albumform.php">Album Form</a>
-    </nav>
-
+      <a href='privacy.php'>Privacy Policy</a>
+      <a href='index.php'>Home</a>
+      <a href='albumform.php'>Album Form</a>";
+	if($_SESSION['user_role'] == "admin") {
+		Print "<a href='survey_data.php'>Survey Data</a>";
+	}
+	if(!empty($_SESSION['current_user'])) {
+		Print "<a href='logout.php'>Log Out</a>";
+	}
+Print '</nav>
     <article>
 
 

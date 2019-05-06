@@ -1,10 +1,14 @@
 
 <?php
 //Setup for Webpage
+session_start();
 require_once("Template.php");
 $page = new Template("Album Result");
 $page -> addHeadElement('<link rel="stylesheet" href="css/style.css">');
 $page -> addHeadElement('<meta charset="UTF-8">');
+if(!empty($_SESSION['current_user'])) {
+	$page -> addHeadElement("<h1>Hello, {$_SESSION['current_user']}</h1>");
+}
 $page -> finalizeTopSection();
 $page -> finalizeBottomSection();
 //Database Class setup
@@ -41,8 +45,14 @@ function searchFailurePage(Template $page, String $search){
     <nav>
       <a href='privacy.php'>Privacy Policy</a>
       <a href='index.php'>Home</a>
-      <a href='albumform.php'>Album Form</a>
-    </nav>
+      <a href='albumform.php'>Album Form</a>";
+	if($_SESSION['user_role'] == "admin") {
+		Print "<a href='survey_data.php'>Survey Data</a>";
+	}
+	if(!empty($_SESSION['current_user'])) {
+		Print "<a href='logout.php'>Log Out</a>";
+	}
+	print"</nav>
     <p>We have failed to find the item " . $search . " please select a different album or artist so that we can check for you again.</p>
 ";
     print $page->getBottomSection();
@@ -54,8 +64,14 @@ function searchErrorPage(Template $page){
     <nav>
       <a href='privacy.php'>Privacy Policy</a>
       <a href='index.php'>Home</a>
-      <a href='albumform.php'>Album Form</a>
-    </nav>
+      <a href='albumform.php'>Album Form</a>";
+	if($_SESSION['user_role'] == "admin") {
+		Print "<a href='survey_data.php'>Survey Data</a>";
+	}
+	if(!empty($_SESSION['current_user'])) {
+		Print "<a href='logout.php'>Log Out</a>";
+	}
+	print"</nav>
     
     <p>We have failed to detect any items in the search bar.  Please try again later.</p>
 ";
@@ -68,10 +84,15 @@ function successPage(Template $page, array $result){
     <nav>
       <a href='privacy.php'>Privacy Policy</a>
       <a href='index.php'>Home</a>
-      <a href='albumform.php'>Album Form</a>
-    </nav>";
-             
-                        
+      <a href='albumform.php'>Album Form</a>";
+	if($_SESSION['user_role'] == "admin") {
+		Print "<a href='survey_data.php'>Survey Data</a>";
+	}
+	if(!empty($_SESSION['current_user'])) {
+		Print "<a href='logout.php'>Log Out</a>";
+	}
+	print"</nav>";
+                     
     print '<table>';
    
     foreach($result as $album){

@@ -25,15 +25,11 @@ h2 {
 nav {
 
     background-color: green;
-    
 
 }
 
-nav a {
-
-    margin-left: 20%;
-    margin-right: 0%;
-    
+a {
+	padding: 10%;
 }
 
 nav a:link {
@@ -59,8 +55,7 @@ article {
 
 form {
 
-    padding-left: 2%;
-    padding-bottom: 1%;
+    padding: 20px;    
     border-style: solid;
     border-color: green;
     color: green;
@@ -72,4 +67,13 @@ form h2 {
     color: white;
     margin-left: 0%;
 
+}
+
+input[name=password] {
+    margin: 10px;
+    margin-left: 57px;
+}
+
+input[type=submit] {
+    margin-top: 15px;
 }

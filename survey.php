@@ -1,26 +1,34 @@
 <?php
 
 require_once("Template.php");
-
+session_start();
 $page = new Template("Survey");
 $page -> addHeadElement("<link rel=\"stylesheet\" href=\"css/style.css\">");
 $page -> addHeadElement("<meta charset=\"UTF-8\">");
 $page -> addHeadElement("<script src=\"js/surveycheck.js\"></script>");
-
+if(!empty($_SESSION['current_user'])) {
+	$page -> addHeadElement("<h1>Hello, {$_SESSION['current_user']}</h1>");
+}
 $page -> finalizeTopSection();
 $page -> finalizeBottomSection();
 
 print $page->getTopSection();
 
-print'
+print"
 
     <h1>Survey</h1>
 
     <nav>
-      <a href="index.php">Home</a>
-      <a href="privacy.php">Privacy Policy</a>
-      <a href="albumform.php">Album Form</a>
-    </nav>
+      <a href='privacy.php'>Privacy Policy</a>
+      <a href='index.php'>Home</a>
+      <a href='albumform.php'>Album Form</a>";
+	if($_SESSION['user_role'] == "admin") {
+		Print "<a href='survey_data.php'>Survey Data</a>";
+	}
+	if(!empty($_SESSION['current_user'])) {
+		Print "<a href='logout.php'>Log Out</a>";
+	}
+	print'</nav>
 
     <article>
 
