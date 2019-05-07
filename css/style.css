@@ -6,7 +6,7 @@ html {
 }
 
 p {
-    color: green;
+    color: white;
 
 }
 
@@ -29,7 +29,7 @@ nav {
 }
 
 a {
-	padding: 10%;
+	margin-left: 10%;
 }
 
 nav a:link {
@@ -76,4 +76,20 @@ input[name=password] {
 
 input[type=submit] {
     margin-top: 15px;
+}
+
+table {
+    margin-top: 10px;
+    margin-right: 10px;
+    border-style: groove;
+    border-color:whitesmoke;
+}
+
+td {
+    border-style:solid;
+    padding: 20px;
+}
+table a {
+    font-size:small;
+    color:cadetblue;
 }

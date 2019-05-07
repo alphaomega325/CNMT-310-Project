@@ -27,7 +27,7 @@ print "
 	if(!empty($_SESSION['current_user'])) {
 		Print "<a href='logout.php'>Log Out</a>";
 	}
-Print '</nav>
+print '</nav>
 
     <article>
 

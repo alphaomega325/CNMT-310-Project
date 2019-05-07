@@ -1,7 +1,7 @@
 <?php
 
 $message = "";
-$redirect = "window.location.replace('login.php');";
+$redirect = "login.php";
 if(isset($_POST['username']) && !empty($_POST['username'])) {
 	$username = $_POST['username'];
 
@@ -52,7 +52,7 @@ if(isset($_POST['username']) && !empty($_POST['username'])) {
             $_SESSION['current_user'] = $return->realName;
             $_SESSION['user_role'] = $return->role;
             $message = "Login Successful!";
-            $redirect = "window.location.replace('index.php');";
+            $redirect = "index.php";
         }
         else { //user credentials invalid
             $message = "Invalid username or Password! Try again.";
@@ -75,8 +75,8 @@ else {
     $message = "One or more fields empty! Try again.";
 }
 //displays appropriate message and redirects use
-echo "<script type='text/javascript'>alert('$message');" .
-    $redirect . "</script>";
+echo "<script type='text/javascript'>alert('$message'); window.location.replace('" .
+    $redirect . "'); </script>";
 //Javascript disabled
 echo "<noscript> <a href=" . $redirect . ">" . $message . "</a></noscript>"
 ?>

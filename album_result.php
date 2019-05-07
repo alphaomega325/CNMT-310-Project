@@ -11,96 +11,95 @@ if(!empty($_SESSION['current_user'])) {
 }
 $page -> finalizeTopSection();
 $page -> finalizeBottomSection();
-//Database Class setup
-require_once("DB.class.php");
-$db = new DB();
-if (!$db->getConnStatus()) {
-  print "An error has occurred with connection\n";
-  exit;
+
+print $page -> getTopSection();
+
+print "<h1>Success</h1>
+<nav>
+  <a href='privacy.php'>Privacy Policy</a>
+  <a href='index.php'>Home</a>
+  <a href='albumform.php'>Album Form</a>";
+if($_SESSION['user_role'] == "admin") {
+	Print "<a href='survey_data.php'>Survey Data</a>";
 }
+if(!empty($_SESSION['current_user'])) {
+	Print "<a href='logout.php'>Log Out</a>";
+}
+print"</nav>";
+
 $search = $_POST["searchInput"];
-//Data Sanitization goes here
-$search = $db->dbEsc($search);
-//Validation goes here
-if(!isset($search))
-{
-    searchErrorPage($page);
+
+$data = array("search" => $search);
+
+$dataJson = json_encode($data);
+
+$postString = "data=" . urlencode($dataJson);
+
+$contentLength = strlen($postString);
+
+$header = array(
+  'Content-Type: application/x-www-form-urlencoded',
+  'Content-Length: ' . $contentLength
+);
+
+//replace user folder if needed
+$url = "http://cnmtsrv2.uwsp.edu/~eknip856/Sprint3/albumsearch.php";
+    $ch = curl_init();
+        
+// Check if initialization had gone wrong    
+if ($ch === false) {
+    throw new Exception('failed to initialize');
 }
-$query = "SELECT albumtitle, albumartist 
-        FROM album
-	    WHERE albumtitle = '" . $search . "' OR albumartist = '" . $search . "';";
-$result = $db->dbCall($query);
-if(!(empty($result))){
-    successPage($page, $result);
+        
+curl_setopt($ch,
+    CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch,
+    CURLOPT_POSTFIELDS, $postString);
+curl_setopt($ch,
+    CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch,
+    CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch,
+    CURLOPT_URL, $url);
+
+$return = curl_exec($ch);
+        
+$return = json_decode($return);
+
+//start here
+if(empty($return->result)){
+    
+    searchFailurePage($page, $search);
 }
 else
 {
-    searchFailurePage($page, $search);
+    successPage($page, $return);
 }
 //Resulting WebPages goes here
 function searchFailurePage(Template $page, String $search){
-    print $page -> getTopSection();
-    
-    print"<h1>Failure</h1>
-    <nav>
-      <a href='privacy.php'>Privacy Policy</a>
-      <a href='index.php'>Home</a>
-      <a href='albumform.php'>Album Form</a>";
-	if($_SESSION['user_role'] == "admin") {
-		Print "<a href='survey_data.php'>Survey Data</a>";
-	}
-	if(!empty($_SESSION['current_user'])) {
-		Print "<a href='logout.php'>Log Out</a>";
-	}
-	print"</nav>
-    <p>We have failed to find the item " . $search . " please select a different album or artist so that we can check for you again.</p>
-";
+
+    echo "<p>We have failed to find the item " . $search . " please select a different album or artist so that we can check for you again.</p>";
     print $page->getBottomSection();
 }
-function searchErrorPage(Template $page){
-    print $page -> getTopSection();
-    print"<h1>Failure</h1>
- 
-    <nav>
-      <a href='privacy.php'>Privacy Policy</a>
-      <a href='index.php'>Home</a>
-      <a href='albumform.php'>Album Form</a>";
-	if($_SESSION['user_role'] == "admin") {
-		Print "<a href='survey_data.php'>Survey Data</a>";
-	}
-	if(!empty($_SESSION['current_user'])) {
-		Print "<a href='logout.php'>Log Out</a>";
-	}
-	print"</nav>
-    
-    <p>We have failed to detect any items in the search bar.  Please try again later.</p>
-";
-    print $page->getBottomSection();
-}
-function successPage(Template $page, array $result){	
-    print $page -> getTopSection();
-    
-    print "<h1>Success</h1>
-    <nav>
-      <a href='privacy.php'>Privacy Policy</a>
-      <a href='index.php'>Home</a>
-      <a href='albumform.php'>Album Form</a>";
-	if($_SESSION['user_role'] == "admin") {
-		Print "<a href='survey_data.php'>Survey Data</a>";
-	}
-	if(!empty($_SESSION['current_user'])) {
-		Print "<a href='logout.php'>Log Out</a>";
-	}
-	print"</nav>";
-                     
+
+function successPage(Template $page, $result){	
+                 
     print '<table>';
    
-    foreach($result as $album){
+    print '<tr>
+        <td>Album Title</td>
+        <td>Album Artist</td>
+        <td>Album Length(min)</td>
+        <td>Link</td>';
+    foreach($result->result as $album){
         print "<tr>";
-        print "<td>".$album['albumtitle']."</dt>";
-        print "<td>".$album['albumartist']."</dt>";	
+        print "<td>".$album->albumtitle."</dt>";
+        print "<td>".$album->albumartist."</dt>";
+        print "<td>".$album->albumlength."</dt>";
+        print "<td class='link'><a href='".$album->URL."'>Purchase Online</dt>";
         print "</tr>";
     }
+
     print '</table>';
     print $page ->getBottomSection();
 }
